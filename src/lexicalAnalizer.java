@@ -1,12 +1,18 @@
 
 import java.util.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class lexicalAnalizer {
     
     	 // Main method to run the lexical analyzer on a sample input
     	   public static void main(String[] args) {
-    	       String text = "int x = 7; float y = 3.5; String name = \"John\"; if (x < y) { x = x + 5; } name = 5; 1abc = 10; @test";
-    	       analyze(text);
+			String filePath = "input.txt";  // Path to the input file
+			String text = readFile(filePath);  // Read text from file
+			if (text != null) {
+				analyze(text);  // Analyze the text from the file
+			}
     	   }
 
     		    // Keywords, operators, and separators
@@ -31,6 +37,18 @@ public class lexicalAnalizer {
     		            
     		        }
     		    }
+
+				 // Method to read the content of a file
+    private static String readFile(String filePath) {
+        try {
+			
+            // Read all lines from the file and join them into a single string
+            return new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+            return null;  // Return null if an error occurs
+        }
+    }
 
     		    // Tokenize input by adding spaces around separators and operators for easy splitting
     		    private static String[] tokenize(String text) {
